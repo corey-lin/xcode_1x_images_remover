@@ -9,12 +9,16 @@ import sys
 import json
 import os
 
+# app icon 1x image will be excluded as it's needed
 def get_1x_image_name(contentsJSON_string):
     json_data = json.loads(contentsJSON_string)
     try:
         for image in json_data['images']:
-            if image['scale'] == '1x':
+            # only app icon image has `size` key,
+            # so we use the key to differentiate whether it's app icon image
+            if image['scale'] == '1x' and 'size' not in image:
                 return image['filename']
+        return ""
     except:
         return ""
 def remove_1x_image(image_folder, image_name):
